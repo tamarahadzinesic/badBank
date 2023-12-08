@@ -3,29 +3,25 @@ package ch.engenius.bank;
 import java.math.BigDecimal;
 
 public class Account {
-    private double money;
+    private BigDecimal money;
 
-    public void withdraw(double amount) {
-        if ((money - amount) < 0) {
+    public void withdraw(BigDecimal amount) {
+        if ((money.subtract(amount)).compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalStateException("not enough credits on account");
         }
-        setMoney(money - amount);
+        setMoney(money.subtract(amount));
 
     }
 
-    public void deposit(double amount) {
-        setMoney(money + amount);
+    public void deposit(BigDecimal amount) {
+        setMoney(money.add(amount));
     }
 
-    public double getMoney() {
+    public BigDecimal getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(BigDecimal money) {
         this.money = money;
-    }
-
-    public BigDecimal getMoneyAsBigDecimal() {
-        return BigDecimal.valueOf(money);
     }
 }
