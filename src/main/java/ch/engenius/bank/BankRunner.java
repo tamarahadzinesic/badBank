@@ -1,5 +1,10 @@
 package ch.engenius.bank;
 
+import ch.engenius.bank.data.Account;
+import ch.engenius.bank.data.Bank;
+import ch.engenius.bank.service.AccountServiceImpl;
+import ch.engenius.bank.service.BankServiceImpl;
+
 import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -14,6 +19,8 @@ public class BankRunner {
     private final Random random = new Random(43);
     private final Bank bank = new Bank();
 
+    private final AccountServiceImpl accountService = new AccountServiceImpl();
+    private final BankServiceImpl bankService = new BankServiceImpl();
 
     public static void main(String[] args) {
         BankRunner runner = new BankRunner();
@@ -43,21 +50,20 @@ public class BankRunner {
         BigDecimal transfer = BigDecimal.valueOf(random.nextDouble() * 100.0);
         int accountInNumber = random.nextInt(maxAccount);
         int accountOutNumber = random.nextInt(maxAccount);
-        Account accIn = bank.getAccount(accountInNumber);
-        Account accOut = bank.getAccount(accountOutNumber);
-        accIn.deposit(transfer);
-        accOut.withdraw(transfer);
+        Account accIn = bankService.getAccountByAccountNumber(bank, accountInNumber);
+        Account accOut = bankService.getAccountByAccountNumber(bank, accountOutNumber);
+        accountService.transfer(accOut, accIn, transfer);
     }
 
     private void registerAccounts(int number, BigDecimal defaultMoney) {
         for (int i = 0; i < number; i++) {
-            bank.registerAccount(i, defaultMoney);
+            bankService.registerAccount(bank, i, defaultMoney);
         }
     }
 
     private void sanityCheck(int accountMaxNumber, int totalExpectedMoney) {
         BigDecimal sum = IntStream.range(0, accountMaxNumber)
-                .mapToObj(bank::getAccount)
+                .mapToObj(num -> bankService.getAccountByAccountNumber(bank, num))
                 .map(Account::getMoney)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
