@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.IntStream;
 
 public class BankRunner {
@@ -21,6 +23,8 @@ public class BankRunner {
 
     private final AccountServiceImpl accountService = new AccountServiceImpl();
     private final BankServiceImpl bankService = new BankServiceImpl();
+
+    private static final Logger LOGGER = Logger.getLogger(BankRunner.class.getName());
 
     public static void main(String[] args) {
         BankRunner runner = new BankRunner();
@@ -42,7 +46,8 @@ public class BankRunner {
             executor.shutdown();
             executor.awaitTermination(100, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            LOGGER.log(Level.SEVERE, "Interrupted execution", e);
         }
     }
 
@@ -70,7 +75,7 @@ public class BankRunner {
         if (sum.intValue() != totalExpectedMoney) {
             throw new IllegalStateException("we got " + sum + " != " + totalExpectedMoney + " (expected)");
         }
-        System.out.println("sanity check OK");
+        LOGGER.log(Level.INFO, "sanity check OK");
     }
 
 

@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AccountServiceTest {
+class AccountServiceTest {
 
     Account account;
     AccountServiceImpl accountService;
@@ -31,12 +31,12 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testGetAmount() {
+    void testGetAmount() {
         assertEquals(INITIAL_ACCOUNT_AMOUNT, account.getMoney());
     }
 
     @Test
-    public void testDepositAmount() {
+    void testDepositAmount() {
         BigDecimal expectedAmount = INITIAL_ACCOUNT_AMOUNT.add(DEPOSIT_AMOUNT);
         accountService.deposit(account, DEPOSIT_AMOUNT);
 
@@ -44,14 +44,14 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testNegativeDepositAmount() {
+    void testNegativeDepositAmount() {
         Throwable exception = assertThrows(IllegalStateException.class, () ->
                 accountService.deposit(account, NEGATIVE_DEPOSIT_AMOUNT));
         assertEquals(ERROR_MESSAGE_NEGATIVE_AMOUNT, exception.getMessage());
     }
 
     @Test
-    public void testWithdrawAmount() {
+    void testWithdrawAmount() {
         BigDecimal expectedAmount = INITIAL_ACCOUNT_AMOUNT.subtract(WITHDRAW_AMOUNT);
         accountService.withdraw(account, WITHDRAW_AMOUNT);
 
@@ -59,14 +59,14 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testWithdrawUnavailableAmount() {
+    void testWithdrawUnavailableAmount() {
         Throwable exception = assertThrows(IllegalStateException.class, () ->
                 accountService.withdraw(account, UNAVAILABLE_WITHDRAW_AMOUNT));
         assertEquals(ERROR_MESSAGE_UNAVAILABLE_WITHDRAW_AMOUNT, exception.getMessage());
     }
 
     @Test
-    public void testTransferAmount() {
+    void testTransferAmount() {
         Account sourceAccount = new Account(INITIAL_ACCOUNT_AMOUNT);
         Account targetAccount = new Account(INITIAL_ACCOUNT_AMOUNT);
         BigDecimal expectedAmountSourceAccount = INITIAL_ACCOUNT_AMOUNT.subtract(TRANSFER_AMOUNT);
@@ -78,7 +78,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void testTransferNegativeAmount() {
+    void testTransferNegativeAmount() {
         Account sourceAccount = new Account(INITIAL_ACCOUNT_AMOUNT);
         Account targetAccount = new Account(INITIAL_ACCOUNT_AMOUNT);
 

@@ -41,7 +41,7 @@ public class BankServiceImpl implements BankService {
      * @throws IllegalStateException if there's no account with specific account number
      */
     @Override
-    synchronized public Account getAccountByAccountNumber(Bank bank, int accountNumber) {
+    public synchronized Account getAccountByAccountNumber(Bank bank, int accountNumber) {
         if (!isAccountRegistered(bank, accountNumber)) {
             throw new IllegalStateException(String.format("Account with number %s does not exist!", accountNumber));
         }

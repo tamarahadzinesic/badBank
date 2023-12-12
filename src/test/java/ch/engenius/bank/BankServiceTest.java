@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BankServiceTest {
+class BankServiceTest {
 
     Bank bank;
     BankServiceImpl bankService;

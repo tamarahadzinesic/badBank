@@ -1,8 +1,5 @@
 package ch.engenius.bank.data;
 
-import ch.engenius.bank.data.Account;
-
-import java.math.BigDecimal;
 import java.util.HashMap;
 
 public class Bank {

@@ -13,7 +13,7 @@ public class AccountServiceImpl implements AccountService {
      * @throws IllegalStateException if there's not enough money on the account to be withdrawn
      */
     @Override
-    synchronized public void withdraw(Account account, BigDecimal amount) {
+    public synchronized void withdraw(Account account, BigDecimal amount) {
         if (!isEnoughMoneyOnAccountForWithdraw(account, amount)) {
             throw new IllegalStateException("Not enough credits on the account!");
         }
@@ -44,7 +44,7 @@ public class AccountServiceImpl implements AccountService {
      * @throws IllegalStateException if the amount to be transferred is negative
      */
     @Override
-    public synchronized void transfer(Account sourceAccount, Account targetAccount, BigDecimal amount) {
+    public void transfer(Account sourceAccount, Account targetAccount, BigDecimal amount) {
         validateAmount(amount);
         synchronized (this) {
             withdraw(sourceAccount, amount);
